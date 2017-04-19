@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Front-end assignment test</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"   integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/angular-websocket.min.js"></script>
+
+</head>
+<body>
+  <nav class="navbar navbar-light bg-faded">
+    <div class="container">
+      <h1 class="navbar-brand mb-0">Front-end assignment test</h1>
+    </div>
+  </nav>
+
+    <div class="container" ng-controller="MainController">
+      <br>
+
+      <p>Web socket response, regreshing every 5 secunds:</p>
+
+      <p>{{MyData.collection.message}}</p>
+
+      <div id="accordion" role="tablist" aria-multiselectable="true" ng-show="MyData.collection.status">
+        <div class="card">
+          <div class="card-header" role="tab" id="headingOne">
+            <h5 class="mb-0">
+              <a data-toggle="collapse" data-parent="#accordion" href="#services" aria-expanded="true" aria-controls="services">
+                Service Status
+              </a>
+            </h5>
+          </div>
+          <div id="services" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+            <div class="card-block">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>DB</th>
+                    <th>Cache</th>
+                    <th>Struct Cache</th>
+                    <th>Version</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in MyData.collection.services track by $index">
+                    <td>{{$index + 1}}</td>
+                    <td>{{data.service}}</td>
+                    <td><span class="badge " ng-class="{'badge-success': data.status == 'OK','badge-danger':data.status !== 'OK'}">{{data.status}}</span></td>
+                    <td><span class="badge " ng-class="{'badge-success': data.db_is_ok == true,'badge-danger':data.db_is_ok == false}">{{data.db_is_ok? 'Connected': 'Disconnected'}}</span></td>
+                    <td><span class="badge " ng-class="{'badge-success': data.cache_is_ok == true,'badge-danger':data.cache_is_ok == false}">{{data.cache_is_ok? 'Enabled': 'Disabled'}}</span></td>
+                    <td><span class="badge " ng-class="{'badge-success': data.struct_cache_is_ok == true,'badge-danger':data.struct_cache_is_ok == false}">{{data.struct_cache_is_ok? 'Enabled': 'Disabled'}}</span></td>
+                    <td>{{data.version}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header" role="tab" id="headingTwo">
+            <h5 class="mb-0">
+              <a href="#service-connectivity" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="service-connectivity">Service Connectivity Status</a>
+            </h5>
+          </div>
+          <div class="collapse" id="service-connectivity" role="tabpanel" aria-labelledby="headingTow">
+            <div class="card-block">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Client</th>
+                    <th>Server</th>
+                    <th>Requests per minutes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="data in MyData.collection.serviceMap track by $index">
+                    <td>{{$index + 1}}</td>
+                    <td>{{data.client}}</td>
+                    <td>{{data.server}}</td>
+                    <td>{{data["requests-per-minutes"]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+</body>
+</html>
