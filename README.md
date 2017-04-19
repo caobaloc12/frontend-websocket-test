@@ -1,6 +1,6 @@
 # Create a front-end presentation for a given websocket stream
 
-##Usage
+## HOWTO 
 
 Using Bootstrap 4 and Angular JS to build the view
 Inject the [angular-websocket](https://www.npmjs.com/package/angular-websocket) module
